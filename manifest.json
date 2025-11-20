@@ -1,0 +1,42 @@
+{
+  "name": "Modern Dashboard",
+  "short_name": "Dashboard",
+  "description": "Una aplicación moderna para gestionar tu productividad y equipo",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1f2937",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+
+  "shortcuts": [
+    {
+      "name": "Nueva Tarea",
+      "short_name": "Tarea",
+      "description": "Crear una nueva tarea rápidamente",
+      "url": "/tarea.html",
+      "icons": [{
+         "src": "icons/mark.png", "sizes": "96x96", 
+         "type": "image/png" }]
+      
+    },
+    {
+      "name": "Acerca de...",
+      "short_name": "Acerca de",
+      "description": "Permite acceder a los datos de Acerca De...",
+      "url": "/equipo.html",
+      "icons": [{ "src": "icons/mark.png",
+       "sizes": "96x96",
+        "type": "image/png" }]
+    }
+  ],
+  "icons": [
+    {
+      "src": "icons/mark.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+
+}

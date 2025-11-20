@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- PWA Configuration -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Modern Dashboard">
+    <meta name="theme-color" content="#3b82f6">
+
+    <!-- Iconos -->
+    <link rel="apple-touch-icon" href="icons/mark.png">
+    <link rel="icon" type="image/png" href="icons/mark.png">
+
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1"></script>
+    <link rel="stylesheet" href="output.css">
+    
+    <title>Contactos - Modern Dashboard</title>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <!-- Menú de navegación -->
+    <nav class="relative bg-gray-800 dark:bg-gray-800/50 dark:after:pointer-events-none dark:after:absolute dark:after:inset-x-0 dark:after:bottom-0 dark:after:h-px dark:after:bg-white/10">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                    <!-- Mobile menu button-->
+                    <button type="button" command="--toggle" commandfor="mobile-menu" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+                        <span class="absolute -inset-0.5"></span>
+                        <span class="sr-only">Open main menu</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 in-aria-expanded:hidden">
+                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 not-in-aria-expanded:hidden">
+                            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="flex shrink-0 items-center">
+                        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+                    </div>
+                    <div class="hidden sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <a href="index.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Dashboard</a>
+                            <a href="tarea.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Tarea</a>
+                            <a href="equipo.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Equipo</a>
+                            <a href="contacto.html" aria-current="page" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white dark:bg-gray-950/50">Contacto</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <button type="button" class="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:hover:text-white">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">View notifications</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                            <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+
+                    <!-- Profile dropdown -->
+                    <el-dropdown class="relative ml-3">
+                        <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">Open user menu</span>
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
+                        </button>
+
+                        <el-menu anchor="bottom end" popover class="w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-gray-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5">Tu perfil</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5">Configuración</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5">Cerrar sesión</a>
+                        </el-menu>
+                    </el-dropdown>
+                </div>
+            </div>
+        </div>
+
+        <el-disclosure id="mobile-menu" hidden class="block sm:hidden">
+            <div class="space-y-1 px-2 pt-2 pb-3">
+                <a href="index.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Dashboard</a>
+                <a href="tarea.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Tarea</a>
+                <a href="equipo.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Equipo</a>
+                <a href="contacto.html" aria-current="page" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white dark:bg-gray-950/50">Contacto</a>
+            </div>
+        </el-disclosure>
+    </nav>
+
+    <!-- Sección principal -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Gestión de Contactos</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Accede y gestiona tus contactos directamente desde nuestra plataforma
+            </p>
+        </div>
+
+        <!-- Tarjeta de permisos -->
+        <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="p-8">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-4">
+                    Acceso a Contactos
+                </h2>
+                
+                <p class="text-gray-600 dark:text-gray-300 text-center mb-8">
+                    Para acceder a tus contactos, necesitamos tu permiso. Esta funcionalidad te permitirá:
+                </p>
+                
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span class="text-gray-700 dark:text-gray-300">Ver y buscar en tu lista de contactos</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span class="text-gray-700 dark:text-gray-300">Seleccionar contactos para compartir información</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span class="text-gray-700 dark:text-gray-300">Agregar contactos a proyectos de equipo</span>
+                    </li>
+                </ul>
+                
+                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-8">
+                    <p class="text-sm text-blue-700 dark:text-blue-300 text-center">
+                        <strong>Importante:</strong> Tu información de contactos nunca se compartirá con terceros y solo se utilizará dentro de esta aplicación.
+                    </p>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button id="btnPermitir" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        Permitir acceso
+                    </button>
+                    
+                    <button id="btnDenegar" class="border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 px-6 py-3 rounded-lg font-medium transition-colors duration-300">
+                        Denegar acceso
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de contactos (se muestra después de conceder permisos) -->
+        <div id="seccionContactos" class="max-w-4xl mx-auto mt-12 hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Tus Contactos</h2>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="relative flex-1 max-w-md">
+                            <input type="text" id="buscarContacto" placeholder="Buscar contacto..." class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                            <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        
+                        <button id="btnActualizar" class="ml-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg font-medium transition-colors duration-300 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            Actualizar
+                        </button>
+                    </div>
+                    
+                    <div id="listaContactos" class="space-y-4 max-h-96 overflow-y-auto">
+                        <!-- Los contactos se cargarán aquí dinámicamente -->
+                    </div>
+                    
+                    <div id="sinContactos" class="text-center py-8 hidden">
+                        <svg class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <p class="text-gray-500 dark:text-gray-400">No se encontraron contactos o no se han concedido los permisos necesarios.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Script para manejar los contactos -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnPermitir = document.getElementById('btnPermitir');
+            const btnDenegar = document.getElementById('btnDenegar');
+            const btnActualizar = document.getElementById('btnActualizar');
+            const buscarContacto = document.getElementById('buscarContacto');
+            const seccionContactos = document.getElementById('seccionContactos');
+            const listaContactos = document.getElementById('listaContactos');
+            const sinContactos = document.getElementById('sinContactos');
+            
+            // Verificar si la API de contactos está disponible
+            if (!('contacts' in navigator && 'ContactsManager' in window)) {
+                mostrarMensajeError('La API de Contactos no está disponible en este navegador.');
+                btnPermitir.disabled = true;
+                btnPermitir.textContent = 'API no disponible';
+                return;
+            }
+            
+            // Manejar el botón de permitir acceso
+            btnPermitir.addEventListener('click', async function() {
+                try {
+                    // Solicitar permisos
+                    const permisos = await navigator.permissions.query({ 
+                        name: 'contacts' 
+                    });
+                    
+                    if (permisos.state === 'granted') {
+                        cargarContactos();
+                    } else {
+                        // Solicitar acceso a los contactos
+                        const props = ['name', 'email', 'tel'];
+                        const opts = { multiple: true };
+                        
+                        const contactos = await navigator.contacts.select(props, opts);
+                        
+                        if (contactos && contactos.length > 0) {
+                            mostrarContactos(contactos);
+                            seccionContactos.classList.remove('hidden');
+                        } else {
+                            mostrarMensajeError('No se seleccionaron contactos.');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error al acceder a los contactos:', error);
+                    mostrarMensajeError('Error al acceder a los contactos: ' + error.message);
+                }
+            });
+            
+            // Manejar el botón de denegar acceso
+            btnDenegar.addEventListener('click', function() {
+                mostrarMensaje('Acceso a contactos denegado.');
+            });
+            
+            // Manejar el botón de actualizar contactos
+            btnActualizar.addEventListener('click', function() {
+                cargarContactos();
+            });
+            
+            // Manejar la búsqueda de contactos
+            buscarContacto.addEventListener('input', function() {
+                filtrarContactos(this.value);
+            });
+            
+            // Función para cargar contactos
+            async function cargarContactos() {
+                try {
+                    const props = ['name', 'email', 'tel'];
+                    const opts = { multiple: true };
+                    
+                    const contactos = await navigator.contacts.select(props, opts);
+                    
+                    if (contactos && contactos.length > 0) {
+                        mostrarContactos(contactos);
+                        seccionContactos.classList.remove('hidden');
+                        sinContactos.classList.add('hidden');
+                    } else {
+                        listaContactos.innerHTML = '';
+                        sinContactos.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error al cargar contactos:', error);
+                    mostrarMensajeError('Error al cargar contactos: ' + error.message);
+                }
+            }
+            
+            // Función para mostrar contactos
+            function mostrarContactos(contactos) {
+                listaContactos.innerHTML = '';
+                
+                contactos.forEach(contacto => {
+                    const nombre = contacto.name ? contacto.name.join(', ') : 'Sin nombre';
+                    const telefono = contacto.tel ? contacto.tel.join(', ') : 'Sin teléfono';
+                    const email = contacto.email ? contacto.email.join(', ') : 'Sin email';
+                    
+                    const elementoContacto = document.createElement('div');
+                    elementoContacto.className = 'flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200';
+                    
+                    elementoContacto.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold mr-4">
+                                ${nombre.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-900 dark:text-white">${nombre}</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">${telefono}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">${email}</p>
+                            </div>
+                        </div>
+                        <button class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+                            Seleccionar
+                        </button>
+                    `;
+                    
+                    listaContactos.appendChild(elementoContacto);
+                });
+            }
+            
+            // Función para filtrar contactos
+            function filtrarContactos(termino) {
+                const elementosContacto = listaContactos.querySelectorAll('div');
+                let encontrados = false;
+                
+                elementosContacto.forEach(elemento => {
+                    const texto = elemento.textContent.toLowerCase();
+                    if (texto.includes(termino.toLowerCase())) {
+                        elemento.style.display = 'flex';
+                        encontrados = true;
+                    } else {
+                        elemento.style.display = 'none';
+                    }
+                });
+                
+                if (!encontrados && termino) {
+                    sinContactos.classList.remove('hidden');
+                } else {
+                    sinContactos.classList.add('hidden');
+                }
+            }
+            
+            // Función para mostrar mensajes
+            function mostrarMensaje(mensaje) {
+                alert(mensaje);
+            }
+            
+            // Función para mostrar mensajes de error
+            function mostrarMensajeError(mensaje) {
+                alert('Error: ' + mensaje);
+            }
+        });
+    </script>
+</body>
+</html>
