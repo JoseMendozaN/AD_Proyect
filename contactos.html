@@ -1,490 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- PWA Configuration -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Modern Dashboard">
-    <meta name="theme-color" content="#3b82f6">
-
-    <!-- Iconos -->
-    <link rel="apple-touch-icon" href="icons/mark.png">
-    <link rel="icon" type="image/png" href="icons/mark.png">
-
-    <!-- Manifest -->
-    <link rel="manifest" href="manifest.json">
-
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1"></script>
-    <link rel="stylesheet" href="output.css">
-    
-    <title>Contactos - Modern Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact Picker — Demo</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial; padding: 24px; max-width: 720px; margin: auto; }
+    .card { border: 1px solid #e6e6e6; padding: 16px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+    button { padding: 10px 14px; border-radius: 8px; border: none; cursor: pointer; }
+    #pickBtn { background: #0b5fff; color: white; }
+    #fallbackForm { margin-top: 12px; display: none; }
+    .field { display:flex; gap:8px; margin-bottom:8px; }
+    label { min-width:80px; font-weight:600; }
+    input { flex:1; padding:8px; border:1px solid #ddd; border-radius:6px; }
+    pre { background:#f6f8fa; padding:12px; border-radius:6px; overflow:auto; }
+    .hint { color:#666; font-size:0.9rem; margin-top:8px; }
+    .hidden { display:none !important; }
+  </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
-    <!-- Menú de navegación -->
-    <nav class="relative bg-gray-800 dark:bg-gray-800/50 dark:after:pointer-events-none dark:after:absolute dark:after:inset-x-0 dark:after:bottom-0 dark:after:h-px dark:after:bg-white/10">
-        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-            <div class="relative flex h-16 items-center justify-between">
-                <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                    <!-- Mobile menu button-->
-                    <button type="button" command="--toggle" commandfor="mobile-menu" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
-                        <span class="absolute -inset-0.5"></span>
-                        <span class="sr-only">Open main menu</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 in-aria-expanded:hidden">
-                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 not-in-aria-expanded:hidden">
-                            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                    <div class="flex shrink-0 items-center">
-                        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
-                    </div>
-                    <div class="hidden sm:ml-6 sm:block">
-                        <div class="flex space-x-4">
-                            <a href="index.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Dashboard</a>
-                            <a href="tarea.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Tarea</a>
-                            <a href="equipo.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Equipo</a>
-                            <a href="contacto.html" aria-current="page" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white dark:bg-gray-950/50">Contacto</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <button type="button" class="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:hover:text-white">
-                        <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">View notifications</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
-                            <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
+<body>
+  <h1>Selector de contactos (Contact Picker API)</h1>
 
-                    <!-- Profile dropdown -->
-                    <el-dropdown class="relative ml-3">
-                        <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">Open user menu</span>
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
-                        </button>
+  <div class="card">
+    <p>Pulsa el botón para seleccionar un contacto desde el dispositivo. Si tu navegador no lo soporta verás un formulario para introducir los datos manualmente.</p>
 
-                        <el-menu anchor="bottom end" popover class="w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-gray-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5">Tu perfil</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5">Configuración</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5">Cerrar sesión</a>
-                        </el-menu>
-                    </el-dropdown>
-                </div>
-            </div>
-        </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button id="pickBtn">Seleccionar contacto</button>
+      <button id="openFallbackBtn" style="background:#e6e6e6;">Usar formulario (fallback)</button>
+    </div>
 
-        <el-disclosure id="mobile-menu" hidden class="block sm:hidden">
-            <div class="space-y-1 px-2 pt-2 pb-3">
-                <a href="index.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Dashboard</a>
-                <a href="tarea.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Tarea</a>
-                <a href="equipo.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Equipo</a>
-                <a href="contacto.html" aria-current="page" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white dark:bg-gray-950/50">Contacto</a>
-            </div>
-        </el-disclosure>
-    </nav>
+    <div id="result" class="hint" aria-live="polite" style="margin-top:12px;"></div>
 
-    <!-- Sección principal -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Selector de Contactos</h1>
-            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Selecciona contactos directamente desde tu dispositivo usando la Contact Picker API
-            </p>
-        </div>
+    <form id="fallbackForm" novalidate>
+      <div class="field">
+        <label for="name">Nombre</label>
+        <input id="name" name="name" type="text" placeholder="Nombre completo" />
+      </div>
+      <div class="field">
+        <label for="tel">Teléfono</label>
+        <input id="tel" name="tel" type="tel" placeholder="+52 1 55..." />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="ejemplo@mail.com" />
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button id="saveFallback" type="button" style="background:#10a37f; color:white;">Guardar</button>
+        <button id="cancelFallback" type="button" style="background:#f0f0f0;">Cancelar</button>
+      </div>
+    </form>
 
-        <!-- Tarjeta de selector de contactos -->
-        <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-            <div class="p-8">
-                <div class="flex items-center justify-center mb-6">
-                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                    </div>
-                </div>
-                
-                <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-4">
-                    Contact Picker API
-                </h2>
-                
-                <p class="text-gray-600 dark:text-gray-300 text-center mb-8">
-                    Esta funcionalidad te permite seleccionar contactos directamente desde la agenda de tu dispositivo de forma segura y privada.
-                </p>
-                
-                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-8">
-                    <p class="text-sm text-blue-700 dark:text-blue-300 text-center">
-                        <strong>Seguro y Privado:</strong> La aplicación nunca accede a todos tus contactos automáticamente. Solo puedes seleccionar contactos específicos cuando lo solicitas explícitamente.
-                    </p>
-                </div>
+    <h3 style="margin-top:16px">Respuesta cruda</h3>
+    <pre id="raw">—</pre>
+  </div>
 
-                <!-- Información de compatibilidad -->
-                <div id="infoCompatibilidad" class="mb-6 p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
-                    <div class="flex items-start">
-                        <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                        </svg>
-                        <div>
-                            <p class="text-sm text-yellow-700 dark:text-yellow-300">
-                                <strong>Requisitos:</strong> Esta función requiere Chrome 80+ en Android o Chrome 86+ en desktop. Asegúrate de usar una versión compatible.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button id="btnSeleccionarContactos" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
-                        </svg>
-                        Seleccionar Contactos
-                    </button>
-                    
-                    <button id="btnLimpiar" class="border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 px-6 py-3 rounded-lg font-medium transition-colors duration-300">
-                        Limpiar Selección
-                    </button>
-                </div>
+  <script>
+    (function () {
+      const pickBtn = document.getElementById('pickBtn');
+      const openFallbackBtn = document.getElementById('openFallbackBtn');
+      const fallbackForm = document.getElementById('fallbackForm');
+      const saveFallback = document.getElementById('saveFallback');
+      const cancelFallback = document.getElementById('cancelFallback');
+      const result = document.getElementById('result');
+      const raw = document.getElementById('raw');
 
-                <!-- Contador de contactos seleccionados -->
-                <div id="contadorContactos" class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400 hidden">
-                    <span id="numeroContactos">0</span> contactos seleccionados
-                </div>
-            </div>
-        </div>
+      // Campos solicitados al Contact Picker
+      const props = ['name', 'email', 'tel'];
+      const opts = { multiple: false }; // cambiar a true si quieres permitir varios
 
-        <!-- Sección de contactos seleccionados -->
-        <div id="seccionContactos" class="max-w-4xl mx-auto mt-12">
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Contactos Seleccionados</h2>
-                    <button id="btnExportar" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-300 flex items-center hidden">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                        </svg>
-                        Exportar CSV
-                    </button>
-                </div>
-                
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="relative flex-1 max-w-md">
-                            <input type="text" id="buscarContacto" placeholder="Buscar en contactos seleccionados..." class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                            <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    
-                    <div id="listaContactos" class="space-y-4 max-h-96 overflow-y-auto">
-                        <!-- Los contactos seleccionados se cargarán aquí dinámicamente -->
-                    </div>
-                    
-                    <div id="sinContactos" class="text-center py-8">
-                        <svg class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                        <p class="text-gray-500 dark:text-gray-400">No hay contactos seleccionados. Haz clic en "Seleccionar Contactos" para comenzar.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+      // Detectar soportes seguro
+      const supportsContactPicker = ('contacts' in navigator) && (typeof navigator.contacts.select === 'function');
 
-    <!-- Script para manejar la Contact Picker API -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const btnSeleccionar = document.getElementById('btnSeleccionarContactos');
-            const btnLimpiar = document.getElementById('btnLimpiar');
-            const btnExportar = document.getElementById('btnExportar');
-            const buscarContacto = document.getElementById('buscarContacto');
-            const listaContactos = document.getElementById('listaContactos');
-            const sinContactos = document.getElementById('sinContactos');
-            const contadorContactos = document.getElementById('contadorContactos');
-            const numeroContactos = document.getElementById('numeroContactos');
-            const infoCompatibilidad = document.getElementById('infoCompatibilidad');
+      // UI inicial según soporte
+      if (!supportsContactPicker) {
+        result.textContent = 'Contact Picker no disponible en este navegador. Se mostrará el formulario de fallback si lo deseas.';
+      } else {
+        result.textContent = 'Contact Picker disponible. Pulsa "Seleccionar contacto".';
+      }
 
-            let contactosSeleccionados = JSON.parse(localStorage.getItem('contactosSeleccionados')) || [];
+      // Acción: abrir selector (DEBE ser desde un gesto de usuario)
+      pickBtn.addEventListener('click', async () => {
+        // Siempre asegurar que la función exista (evita errores en navegadores "parciales")
+        if (!supportsContactPicker) {
+          showFallback();
+          return;
+        }
 
-            // Verificar compatibilidad con Contact Picker API
-            function verificarCompatibilidad() {
-                if (!('contacts' in navigator)) {
-                    infoCompatibilidad.innerHTML = `
-                        <div class="flex items-start">
-                            <svg class="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <div>
-                                <p class="text-sm text-red-700 dark:text-red-300">
-                                    <strong>No compatible:</strong> Tu navegador no soporta la Contact Picker API. Esta función requiere Chrome 80+ en Android o Chrome 86+ en desktop.
-                                </p>
-                            </div>
-                        </div>
-                    `;
-                    btnSeleccionar.disabled = true;
-                    btnSeleccionar.textContent = 'API no disponible';
-                    return false;
-                }
-                return true;
-            }
+        try {
+          // navigator.contacts.select devuelve un array de contactos seleccionados
+          const contacts = await navigator.contacts.select(props, opts);
 
-            // Inicializar
-            function inicializar() {
-                const esCompatible = verificarCompatibilidad();
-                if (esCompatible) {
-                    mostrarContactos();
-                    actualizarContador();
-                }
-            }
+          // contacts puede llegar vacío si el usuario cancela, o con campos vacíos
+          if (!contacts || contacts.length === 0) {
+            result.textContent = 'No seleccionaste ningún contacto (cancelado).';
+            raw.textContent = '[]';
+            return;
+          }
 
-            // Manejar selección de contactos
-            btnSeleccionar.addEventListener('click', async function() {
-                try {
-                    // Especificar las propiedades que queremos obtener
-                    const props = ['name', 'email', 'tel', 'address', 'icon'];
-                    const opts = { multiple: true };
-                    
-                    // Abrir el selector de contactos
-                    const contacts = await navigator.contacts.select(props, opts);
-                    
-                    if (contacts && contacts.length > 0) {
-                        // Procesar los contactos seleccionados
-                        contacts.forEach(contact => {
-                            const contactoProcesado = {
-                                id: Date.now() + Math.random(), // ID único
-                                name: contact.name ? contact.name[0] : 'Sin nombre',
-                                email: contact.email ? contact.email[0] : '',
-                                tel: contact.tel ? contact.tel[0] : '',
-                                address: contact.address ? contact.address[0] : '',
-                                icon: contact.icon ? contact.icon[0] : '',
-                                fechaSeleccion: new Date().toLocaleString()
-                            };
-                            
-                            // Evitar duplicados basados en nombre y teléfono
-                            const existe = contactosSeleccionados.some(c => 
-                                c.name === contactoProcesado.name && c.tel === contactoProcesado.tel
-                            );
-                            
-                            if (!existe) {
-                                contactosSeleccionados.push(contactoProcesado);
-                            }
-                        });
-                        
-                        guardarContactos();
-                        mostrarContactos();
-                        actualizarContador();
-                        mostrarNotificacion(`${contacts.length} contacto(s) seleccionado(s) correctamente`, 'success');
-                    } else {
-                        mostrarNotificacion('No se seleccionaron contactos', 'info');
-                    }
-                } catch (error) {
-                    console.error('Error al seleccionar contactos:', error);
-                    mostrarNotificacion('Error al seleccionar contactos: ' + error.message, 'error');
-                }
-            });
+          // Normalizar y mostrar el primer contacto
+          const c = contacts[0];
 
-            // Manejar limpieza de contactos
-            btnLimpiar.addEventListener('click', function() {
-                if (contactosSeleccionados.length > 0) {
-                    if (confirm('¿Estás seguro de que quieres limpiar todos los contactos seleccionados?')) {
-                        contactosSeleccionados = [];
-                        guardarContactos();
-                        mostrarContactos();
-                        actualizarContador();
-                        mostrarNotificacion('Contactos limpiados correctamente', 'success');
-                    }
-                } else {
-                    mostrarNotificacion('No hay contactos para limpiar', 'info');
-                }
-            });
+          // name/email/tel suelen venir como arrays en el objeto (según implementaciones)
+          const name = Array.isArray(c.name) ? c.name[0] : c.name || '';
+          const email = Array.isArray(c.email) ? c.email[0] : c.email || '';
+          const tel = Array.isArray(c.tel) ? c.tel[0] : c.tel || '';
 
-            // Manejar exportación
-            btnExportar.addEventListener('click', function() {
-                exportarCSV();
-            });
+          // Poner en UI y en el formulario fallback (para edición/guardar)
+          result.innerHTML = `<strong>Seleccionado:</strong> ${escapeHtml(name || '—')} ${escapeHtml(tel ? '· ' + tel : '')} ${escapeHtml(email ? '· ' + email : '')}`;
+          raw.textContent = JSON.stringify(contacts, null, 2);
 
-            // Manejar búsqueda
-            buscarContacto.addEventListener('input', function() {
-                filtrarContactos(this.value);
-            });
+          // Llenar fallback por si quieres guardarlo desde ahí
+          document.getElementById('name').value = name || '';
+          document.getElementById('tel').value  = tel || '';
+          document.getElementById('email').value = email || '';
 
-            // Función para mostrar contactos
-            function mostrarContactos() {
-                listaContactos.innerHTML = '';
-                
-                if (contactosSeleccionados.length === 0) {
-                    sinContactos.classList.remove('hidden');
-                    btnExportar.classList.add('hidden');
-                    return;
-                }
-                
-                sinContactos.classList.add('hidden');
-                btnExportar.classList.remove('hidden');
-                
-                contactosSeleccionados.forEach(contacto => {
-                    const elementoContacto = document.createElement('div');
-                    elementoContacto.className = 'flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200';
-                    elementoContacto.dataset.id = contacto.id;
-                    
-                    const inicial = contacto.name ? contacto.name.charAt(0).toUpperCase() : '?';
-                    
-                    elementoContacto.innerHTML = `
-                        <div class="flex items-center flex-1">
-                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold text-lg mr-4">
-                                ${inicial}
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="font-medium text-gray-900 dark:text-white text-lg">${contacto.name || 'Sin nombre'}</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 mt-2">
-                                    ${contacto.email ? `
-                                        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                            </svg>
-                                            ${contacto.email}
-                                        </div>
-                                    ` : ''}
-                                    ${contacto.tel ? `
-                                        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                            </svg>
-                                            ${contacto.tel}
-                                        </div>
-                                    ` : ''}
-                                </div>
-                                ${contacto.address ? `
-                                    <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                        </svg>
-                                        ${contacto.address}
-                                    </div>
-                                ` : ''}
-                                <div class="text-xs text-gray-500 dark:text-gray-500 mt-2">
-                                    Seleccionado: ${contacto.fechaSeleccion}
-                                </div>
-                            </div>
-                        </div>
-                        <button onclick="eliminarContacto(${contacto.id})" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 ml-4 flex-shrink-0" title="Eliminar contacto">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                            </svg>
-                        </button>
-                    `;
-                    
-                    listaContactos.appendChild(elementoContacto);
-                });
-            }
+        } catch (err) {
+          // Errores: permisos, cancelación, o restricciones (p.ej. top-level required)
+          console.error('Contact picker error:', err);
+          result.textContent = 'Ocurrió un error o el usuario canceló la selección. Mira la consola para más detalles.';
+          raw.textContent = String(err && err.message ? err.message : err);
+        }
+      });
 
-            // Función para filtrar contactos
-            function filtrarContactos(termino) {
-                const elementosContacto = listaContactos.querySelectorAll('div');
-                let encontrados = false;
-                
-                elementosContacto.forEach(elemento => {
-                    const texto = elemento.textContent.toLowerCase();
-                    if (texto.includes(termino.toLowerCase())) {
-                        elemento.style.display = 'flex';
-                        encontrados = true;
-                    } else {
-                        elemento.style.display = 'none';
-                    }
-                });
-                
-                if (!encontrados && termino) {
-                    sinContactos.classList.remove('hidden');
-                    sinContactos.innerHTML = `
-                        <svg class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                        <p class="text-gray-500 dark:text-gray-400">No se encontraron contactos que coincidan con "${termino}"</p>
-                    `;
-                } else if (!encontrados) {
-                    sinContactos.classList.remove('hidden');
-                    sinContactos.innerHTML = `
-                        <svg class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                        <p class="text-gray-500 dark:text-gray-400">No hay contactos seleccionados. Haz clic en "Seleccionar Contactos" para comenzar.</p>
-                    `;
-                } else {
-                    sinContactos.classList.add('hidden');
-                }
-            }
+      // Abrir fallback manualmente
+      openFallbackBtn.addEventListener('click', showFallback);
+      cancelFallback.addEventListener('click', () => {
+        fallbackForm.style.display = 'none';
+      });
 
-            // Función para actualizar contador
-            function actualizarContador() {
-                const cantidad = contactosSeleccionados.length;
-                numeroContactos.textContent = cantidad;
-                
-                if (cantidad > 0) {
-                    contadorContactos.classList.remove('hidden');
-                } else {
-                    contadorContactos.classList.add('hidden');
-                }
-            }
+      // Guardar datos del fallback (ejemplo: sólo los mostrará)
+      saveFallback.addEventListener('click', () => {
+        const name = document.getElementById('name').value.trim();
+        const tel  = document.getElementById('tel').value.trim();
+        const email = document.getElementById('email').value.trim();
 
-            // Función para guardar contactos
-            function guardarContactos() {
-                localStorage.setItem('contactosSeleccionados', JSON.stringify(contactosSeleccionados));
-            }
+        if (!name && !tel && !email) {
+          alert('Introduce al menos un dato.');
+          return;
+        }
 
-            // Función para exportar CSV
-            function exportarCSV() {
-                let csv = 'Nombre,Email,Teléfono,Dirección,Fecha de Selección\n';
-                
-                contactosSeleccionados.forEach(contacto => {
-                    csv += `"${contacto.name || ''}","${contacto.email || ''}","${contacto.tel || ''}","${contacto.address || ''}","${contacto.fechaSeleccion}"\n`;
-                });
-                
-                const blob = new Blob([csv], { type: 'text/csv' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `contactos-${new Date().toISOString().split('T')[0]}.csv`;
-                a.click();
-                URL.revokeObjectURL(url);
-                
-                mostrarNotificacion('Contactos exportados correctamente', 'success');
-            }
+        const saved = { name, tel, email, from: 'fallback' };
+        result.innerHTML = `<strong>Guardado manualmente:</strong> ${escapeHtml(name)} ${escapeHtml(tel ? '· ' + tel : '')} ${escapeHtml(email ? '· ' + email : '')}`;
+        raw.textContent = JSON.stringify(saved, null, 2);
 
-            // Función para mostrar notificaciones
-            function mostrarNotificacion(mensaje, tipo) {
-                const notificacion = document.createElement('div');
-                notificacion.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg text-white z-50 transform transition-transform duration-300 ${
-                    tipo === 'success' ? 'bg-green-500' : 
-                    tipo === 'error' ? 'bg-red-500' : 'bg-blue-500'
-                }`;
-                notificacion.textContent = mensaje;
-                
-                document.body.appendChild(notificacion);
-                
-                setTimeout(() => {
-                    notificacion.remove();
-                }, 3000);
-            }
+        // Aquí iría tu lógica real: enviar al servidor, guardar en IndexedDB, etc.
+        fallbackForm.style.display = 'none';
+      });
 
-            // Hacer función global para eliminar contactos
-            window.eliminarContacto = function(id) {
-                if (confirm('¿Estás seguro de que quieres eliminar este contacto?')) {
-                    contactosSeleccionados = contactosSeleccionados.filter(c => c.id !== id);
-                    guardarContactos();
-                    mostrarContactos();
-                    actualizarContador();
-                    mostrarNotificacion('Contacto eliminado', 'success');
-                }
-            };
+      function showFallback() {
+        fallbackForm.style.display = 'block';
+        result.textContent = 'Introduce manualmente los datos en el formulario.';
+      }
 
-            // Inicializar la aplicación
-            inicializar();
-        });
-    </script>
+      // Pequeña función para evitar inyección al mostrar texto
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+      }
+
+    })();
+  </script>
 </body>
 </html>
