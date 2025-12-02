@@ -4,8 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Contact Picker — Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial; padding: 24px; max-width: 720px; margin: auto; }
+    /* Mantener estilos específicos del contact picker */
     .card { border: 1px solid #e6e6e6; padding: 16px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
     button { padding: 10px 14px; border-radius: 8px; border: none; cursor: pointer; }
     #pickBtn { background: #0b5fff; color: white; }
@@ -18,40 +19,119 @@
     .hidden { display:none !important; }
   </style>
 </head>
-<body>
-  <h1>Selector de contactos (Contact Picker API)</h1>
 
-  <div class="card">
-    <p>Pulsa el botón para seleccionar un contacto desde el dispositivo. Si tu navegador no lo soporta verás un formulario para introducir los datos manualmente.</p>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <!-- Menú de navegación -->
+  <nav class="relative bg-gray-800 dark:bg-gray-800/50 dark:after:pointer-events-none dark:after:absolute dark:after:inset-x-0 dark:after:bottom-0 dark:after:h-px dark:after:bg-white/10">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+          <!-- Mobile menu button-->
+          <button type="button" command="--toggle" commandfor="mobile-menu" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 in-aria-expanded:hidden">
+              <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 not-in-aria-expanded:hidden">
+              <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex shrink-0 items-center">
+            <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <a href="index.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Dashboard</a>
+              <a href="tarea.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Tarea</a>
+              <a href="equipo.html" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Equipo</a>
+              <a href="contacto.html" aria-current="page" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white dark:bg-gray-950/50">Contacto</a>
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <button type="button" class="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:hover:text-white">
+            <span class="absolute -inset-1.5"></span>
+            <span class="sr-only">View notifications</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+              <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
 
-    <div style="display:flex; gap:10px; align-items:center;">
-      <button id="pickBtn">Seleccionar contacto</button>
-      <button id="openFallbackBtn" style="background:#e6e6e6;">Usar formulario (fallback)</button>
+          <!-- Profile dropdown -->
+          <el-dropdown class="relative ml-3">
+            <button class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+              <span class="absolute -inset-1.5"></span>
+              <span class="sr-only">Open user menu</span>
+              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
+            </button>
+
+            <el-menu anchor="bottom end" popover class="w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-gray-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+              <a href="perfil.html" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5">Tu perfil</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5">Configuración</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:outline-hidden dark:text-gray-300 dark:focus:bg-white/5">Cerrar sesión</a>
+            </el-menu>
+          </el-dropdown>
+        </div>
+      </div>
     </div>
 
-    <div id="result" class="hint" aria-live="polite" style="margin-top:12px;"></div>
+    <el-disclosure id="mobile-menu" hidden class="block sm:hidden">
+      <div class="space-y-1 px-2 pt-2 pb-3">
+        <a href="index.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Dashboard</a>
+        <a href="tarea.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Tarea</a>
+        <a href="equipo.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Equipo</a>
+        <a href="contacto.html" aria-current="page" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white dark:bg-gray-950/50">Contacto</a>
+      </div>
+    </el-disclosure>
+  </nav>
 
-    <form id="fallbackForm" novalidate>
-      <div class="field">
-        <label for="name">Nombre</label>
-        <input id="name" name="name" type="text" placeholder="Nombre completo" />
-      </div>
-      <div class="field">
-        <label for="tel">Teléfono</label>
-        <input id="tel" name="tel" type="tel" placeholder="+52 1 55..." />
-      </div>
-      <div class="field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="ejemplo@mail.com" />
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button id="saveFallback" type="button" style="background:#10a37f; color:white;">Guardar</button>
-        <button id="cancelFallback" type="button" style="background:#f0f0f0;">Cancelar</button>
-      </div>
-    </form>
+  <!-- Contenido principal -->
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Selector de contactos (Contact Picker API)</h1>
 
-    <h3 style="margin-top:16px">Respuesta cruda</h3>
-    <pre id="raw">—</pre>
+    <div class="card bg-white dark:bg-gray-800 dark:text-gray-200">
+      <p class="mb-4">Pulsa el botón para seleccionar un contacto desde el dispositivo. Si tu navegador no lo soporta verás un formulario para introducir los datos manualmente.</p>
+
+      <div class="flex flex-wrap gap-3 items-center mb-4">
+        <button id="pickBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+          Seleccionar contacto
+        </button>
+        <button id="openFallbackBtn" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg transition-colors">
+          Usar formulario (fallback)
+        </button>
+      </div>
+
+      <div id="result" class="hint dark:text-gray-400" aria-live="polite" style="margin-top:12px;"></div>
+
+      <form id="fallbackForm" novalidate class="mt-4">
+        <div class="field">
+          <label for="name" class="dark:text-gray-300">Nombre</label>
+          <input id="name" name="name" type="text" placeholder="Nombre completo" class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+        </div>
+        <div class="field">
+          <label for="tel" class="dark:text-gray-300">Teléfono</label>
+          <input id="tel" name="tel" type="tel" placeholder="+52 1 55..." class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+        </div>
+        <div class="field">
+          <label for="email" class="dark:text-gray-300">Email</label>
+          <input id="email" name="email" type="email" placeholder="ejemplo@mail.com" class="dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+        </div>
+        <div class="flex gap-3 mt-4">
+          <button id="saveFallback" type="button" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+            Guardar
+          </button>
+          <button id="cancelFallback" type="button" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg transition-colors">
+            Cancelar
+          </button>
+        </div>
+      </form>
+
+      <h3 class="mt-6 text-lg font-semibold dark:text-gray-300">Respuesta cruda</h3>
+      <pre id="raw" class="dark:bg-gray-900 dark:text-gray-300">—</pre>
+    </div>
   </div>
 
   <script>
@@ -106,7 +186,7 @@
           const tel = Array.isArray(c.tel) ? c.tel[0] : c.tel || '';
 
           // Poner en UI y en el formulario fallback (para edición/guardar)
-          result.innerHTML = `<strong>Seleccionado:</strong> ${escapeHtml(name || '—')} ${escapeHtml(tel ? '· ' + tel : '')} ${escapeHtml(email ? '· ' + email : '')}`;
+          result.innerHTML = `<strong class="dark:text-gray-300">Seleccionado:</strong> ${escapeHtml(name || '—')} ${escapeHtml(tel ? '· ' + tel : '')} ${escapeHtml(email ? '· ' + email : '')}`;
           raw.textContent = JSON.stringify(contacts, null, 2);
 
           // Llenar fallback por si quieres guardarlo desde ahí
@@ -140,7 +220,7 @@
         }
 
         const saved = { name, tel, email, from: 'fallback' };
-        result.innerHTML = `<strong>Guardado manualmente:</strong> ${escapeHtml(name)} ${escapeHtml(tel ? '· ' + tel : '')} ${escapeHtml(email ? '· ' + email : '')}`;
+        result.innerHTML = `<strong class="dark:text-gray-300">Guardado manualmente:</strong> ${escapeHtml(name)} ${escapeHtml(tel ? '· ' + tel : '')} ${escapeHtml(email ? '· ' + email : '')}`;
         raw.textContent = JSON.stringify(saved, null, 2);
 
         // Aquí iría tu lógica real: enviar al servidor, guardar en IndexedDB, etc.
